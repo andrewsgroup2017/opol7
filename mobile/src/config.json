@@ -1,0 +1,85 @@
+{
+  "title": "Andrews Admin",
+  "defaultLanguage": "en",
+  "defaultLanguageFallback": false,
+  "theme": "material",
+  "color": "indigo",
+  "layout": "default",
+  "statusbarVisibility": true,
+  "statusbarTextColor": "white",
+  "statusbarBackgroundColor": "#000000",
+  "iconBackgroundColor": "#ffffff",
+  "useIconFonts": {
+    "framework7": false,
+    "material": false,
+    "ion": false,
+    "fontawesome": false
+  },
+  "limitApplicationWidth": 1024,
+  "limitApplicationHeight": 1366,
+  "limitedSizeBodyBackgroundColor": "#333333",
+  "showPhoneFrameOnDesktop": true,
+  "phoneFrameBodyBackgroundColor": "#fafafa",
+  "framework7parameters": {},
+  "materialSubnavbarFix": true,
+  "restoreHistory": true,
+  "restoreComponentData": true,
+  "completeRoutesFile": true,
+  "firebase": {
+    "apiKey": "AIzaSyCBcvJvSl24XC-f1O23N42bgjdMcZwJrnA",
+    "authDomain": "opol7dev.firebaseapp.com",
+    "databaseURL": "https://opol7dev.firebaseio.com",
+    "storageBucket": "opol7dev.appspot.com",
+    "projectId": "opol7dev",
+    "allowEmailLogin": true,
+    "allowEmailRegistration": false
+  },
+  "devFirebase": {
+    "deployDevRulesOnTesting": false,
+    "apiKey": "AIzaSyCBcvJvSl24XC-f1O23N42bgjdMcZwJrnA",
+    "authDomain": "opol7dev.firebaseapp.com",
+    "databaseURL": "https://opol7dev.firebaseio.com",
+    "storageBucket": "opol7dev.appspot.com",
+    "projectId": "opol7dev",
+    "allowEmailLogin": true,
+    "allowEmailRegistration": false
+  },
+  "loginRequiredForAllPages": true,
+  "appStoreId": "",
+  "playStoreId": "com.ionicframework.cfbuilder125314",
+  "useCordovaPlugins": [
+    "cordova-plugin-mauron85-background-geolocation"
+  ],
+  "cordovaPreferences": {
+    "DisallowOverscroll": true
+  },
+  "resetLocalStorageOnVersionChange": false,
+  "preloadImages": true,
+  "buildSourcemaps": false,
+  "editorConfig": {
+    "root": "true",
+    "[*]": null,
+    "indent_style": "space",
+    "indent_size": "2",
+    "charset": "utf-8",
+    "trim_trailing_whitespace": "true",
+    "insert_final_newline": "true",
+    "end_of_line": "lf",
+    "max_line_length": "null"
+  },
+  "eslint": {
+    "extends": "airbnb",
+    "rules": {
+      "semi": [
+        "error",
+        "never"
+      ]
+    }
+  },
+  "fixCodeOnTest": true,
+  "fixCodeOnBuild": true,
+  "devServerPort": "8080",
+  "gitignore": {},
+  "npmignore": {},
+  "debug": false
+}

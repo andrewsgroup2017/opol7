@@ -1,0 +1,5 @@
+desktop/node_modules
+mobile/build/*.js
+mobile/config/*.js
+backup
+functions

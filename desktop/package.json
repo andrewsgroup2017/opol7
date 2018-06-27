@@ -1,0 +1,57 @@
+{
+  "name": "opol7",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "sudo fuser -k 8080/tcp & vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "dev": "sudo fuser -k 8080/tcp & vue-cli-service serve & ELECTRON_DISABLE_SECURITY_WARNINGS=true NODE_ENV=DEV electron src/app.js"
+  },
+  "dependencies": {
+    "@firebase/firestore": "^0.5.4",
+    "dotenv": "^6.0.0",
+    "electron": "^2.0.2",
+    "eslint": "^4.19.1",
+    "firebase": "^5.0.4",
+    "firebaseui": "^3.0.0",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
+    "vue": "^2.5.16",
+    "vue-firestore": "^0.2.9",
+    "vue-notification": "^1.3.10",
+    "vue-router": "^3.0.1",
+    "vuefire": "^2.0.0-alpha.11",
+    "vuetify": "^1.0.19",
+    "vuex": "^3.0.1",
+    "vuexfire": "^3.0.0-alpha.5"
+  },
+  "devDependencies": {
+    "@babel/polyfill": "^7.0.0-beta.49",
+    "@vue/cli-plugin-babel": "^3.0.0-rc.2",
+    "@vue/cli-plugin-eslint": "^3.0.0-rc.2",
+    "@vue/cli-service": "^3.0.0-rc.2",
+    "lint-staged": "^6.0.0",
+    "node-sass": "^4.9.0",
+    "sass-loader": "^7.0.3",
+    "vue-template-compiler": "^2.5.16"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "vue-cli-service lint",
+      "git add"
+    ],
+    "*.vue": [
+      "vue-cli-service lint",
+      "git add"
+    ]
+  }
+}

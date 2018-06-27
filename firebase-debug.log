@@ -1,0 +1,40 @@
+[debug] [2018-06-26T01:22:07.153Z] ----------------------------------------------------------------------
+[debug] [2018-06-26T01:22:07.154Z] Command:       /home/ash/.nvm/versions/node/v8.11.3/bin/node /home/ash/.nvm/versions/node/v8.11.3/bin/firebase experimental:functions:shell
+[debug] [2018-06-26T01:22:07.154Z] CLI Version:   3.18.6
+[debug] [2018-06-26T01:22:07.155Z] Platform:      linux
+[debug] [2018-06-26T01:22:07.155Z] Node Version:  v8.11.3
+[debug] [2018-06-26T01:22:07.155Z] Time:          Mon Jun 25 2018 20:22:07 GMT-0500 (CDT)
+[debug] [2018-06-26T01:22:07.155Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-06-26T01:22:07.161Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-06-26T01:22:07.161Z] > authorizing via signed-in user
+[debug] [2018-06-26T01:22:07.162Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/opol7dev  
+  
+ Mon Jun 25 2018 20:22:07 GMT-0500 (CDT)
+[debug] [2018-06-26T01:22:07.722Z] <<< HTTP RESPONSE 200
+[debug] [2018-06-26T01:22:07.723Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/opol7dev/tokens  
+  
+ Mon Jun 25 2018 20:22:07 GMT-0500 (CDT)
+[debug] [2018-06-26T01:22:08.067Z] <<< HTTP RESPONSE 200
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-06-26T01:22:08.471Z] Fetching environment
+[debug] [2018-06-26T01:22:08.472Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/opol7dev  
+  
+ Mon Jun 25 2018 20:22:08 GMT-0500 (CDT)
+[debug] [2018-06-26T01:22:08.721Z] <<< HTTP RESPONSE 200
+[debug] [2018-06-26T01:22:08.722Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/1099037767188:getServerAppConfig  
+  
+ Mon Jun 25 2018 20:22:08 GMT-0500 (CDT)
+[debug] [2018-06-26T01:22:08.959Z] <<< HTTP RESPONSE 200
+[debug] [2018-06-26T01:22:08.959Z] Starting @google-cloud/functions-emulator
+[debug] [2018-06-26T01:22:10.005Z] Parsing function triggers
+[debug] [2018-06-26T01:22:10.125Z] Deploying functions locally
+[debug] [2018-06-26T01:22:10.128Z] Deploying functions locally
+[debug] [2018-06-26T01:22:10.128Z] Deploying functions locally
+[debug] [2018-06-26T01:22:10.129Z] Deploying functions locally
+[info] ✔  functions: countCreateProduct
+[info] ✔  functions: countDeleteProduct
+[info] ✔  functions: countCreateHardware
+[info] ✔  functions: countDeleteHardware
+[info] ✔  functions: addMessage
+[info] ✔  functions: locationUpdate
