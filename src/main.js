@@ -22,7 +22,6 @@ Vue.prototype.debug = false
 if (process.env.NODE_ENV === 'development') {
   Vue.prototype.debug = true
 }
-console.log(Vue.prototype.debug)
 
 // Helpers
 // Global filters

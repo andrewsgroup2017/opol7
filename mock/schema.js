@@ -67,6 +67,6 @@ const schema = {
     }    
   },
   required: ['user', 'email']
-};
+}
 
-module.exports = schema;
+module.exports = schema

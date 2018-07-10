@@ -81,6 +81,8 @@
 </template>
 
 <script>
+import utils from '../util/'
+import firebase from '../plugins/firebase'
 export default {
   props: ['user'],
   data () {
@@ -91,28 +93,92 @@ export default {
   methods: {
     async clockIn () {
       console.log('clocking in ...')
-      this.loading = true
-      let itemclock_humanity = await this.axios.post('https://wt-4b2720bcf712029a2fa08942c7e9bd70-0.sandbox.auth0-extend.com/humanity_clockIn', { id: this.user.id })
-      let itemclock = await this.$firestore.collection('timeclocks').add(itemclock_humanity)
-      this.loading = false
-      console.log('Document successfully updated!')
+      const vm = this
+      const deviceId = window.localStorage.getItem('deviceId')
+      // const lat = window.localStorage.getItem('deviceInfo').lat
+      // const lon = window.localStorage.getItem('deviceInfo').lon
+      const location = await utils.location
+      const print = window.localStorage.getItem('fingerprint')
+      const _id = vm.user.userUID
+      let itimeclock = await
+      vm.axios.post('https://wt-4b2720bcf712029a2fa08942c7e9bd70-0.sandbox.auth0-extend.com/humanity_clockin', { id: _id })
+      console.log(itimeclock)
+      if (itimeclock) {
+        let loc = {
+          'lat': location.lat,
+          'lon': location.lon
+        }
+        const d = new Date()
+        // console.log(itimeclock.data)
+        /* eslint-disable-next-line */
+        itimeclock.currentDevice = deviceId,
+        itimeclock.location = loc,
+        itimeclock.print = print,
+        itimeclock.createdAt = d.toString()
+        // itimeclock.createdAt = this.firebase.firestore().FieldValue.serverTimestamp()
+        firebase.firestore().collection('timeclocks').add(itimeclock)
+        // console.log(vm.user.userUID)
+
+        let docRef = firebase.firestore().collection('employees').doc(vm.user.userUID)
+        docRef.update({
+          currentDevice: deviceId,
+          location: {
+            'lat': location.lat,
+            'lon': location.lon
+          },
+          print: print,
+          updatedAt: firebase.firestore().FieldValue.serverTimestamp()
+        })
+      } else {
+        console.log('error ')
+      }
     },
-    async  clockOut () {
-      this.loading = true
-      let otimeclock = await this.axios.post('https://wt-4b2720bcf712029a2fa08942c7e9bd70-0.sandbox.auth0-extend.com/humanity_clockIn', { id: this.user.id })
-      console.log(otimeclock)
-      let deviceInfo = window.localStorage.getItem('deviceInfo')
-      let oclock = await this.$firestore.collection('users').doc(otimeclock).update({
-        'location': { lat: deviceInfo.lat, lng: deviceInfo.lng },
-        'fingerprint': deviceInfo.fingerprint,
-        'out_servertime': this.$firestore.firestore.FieldValue.serverTimestamp(),
-        'updatedAt': this.$firestore.firestore.FieldValue.serverTimestamp()
-      })
-      this.loading = false
-      console.log('Document successfully updated!')
+    async clockOut () {
+      console.log('clocking out ...')
+      const vm = this
+      let otimeclock = await vm.axios.post('https://wt-4b2720bcf712029a2fa08942c7e9bd70-0.sandbox.auth0-extend.com/humanity_clockout', vm.user.userUID)
+      if (otimeclock) {
+        console.log(vm.user.userUID)
+        let docRef = vm.$firebase.firestore().collection('timeclocks').where('userId', '==', vm.user.userUID).where('status', '==', 0)
+        docRef.get().then(function (doc) {
+          if (doc.exists) {
+            console.log('Document data:', doc.data())
+          } else {
+            // doc.data() will be undefined in this case
+            console.log('No such document!')
+          }
+        }).catch(function (error) {
+          console.log('Error getting document:', error)
+        })
+      } else {
+        console.log(otimeclock)
+      }
+      // async clockIn () {
+      //   console.log('clocking in ...')
+      //   this.loading = true
+      //   let itemclock_humanity = await this.axios.post('https://wt-4b2720bcf712029a2fa08942c7e9bd70-0.sandbox.auth0-extend.com/humanity_clockIn', { id: this.user.id })
+      //   let itemclock = await this.$firestore.collection('timeclocks').add(itemclock_humanity)
+      //   this.loading = false
+      //   console.log('Document successfully updated!')
+      // },
+      // async  clockOut () {
+      //   this.loading = true
+      //   let otimeclock = await this.axios.post('https://wt-4b2720bcf712029a2fa08942c7e9bd70-0.sandbox.auth0-extend.com/humanity_clockIn', { id: this.user.id })
+      //   console.log(otimeclock)
+      //   let deviceInfo = window.localStorage.getItem('deviceInfo')
+      //   let oclock = await this.$firestore.collection('users').doc(otimeclock).update({
+      //     'location': { lat: deviceInfo.lat, lng: deviceInfo.lng },
+      //     'fingerprint': deviceInfo.fingerprint,
+      //     'out_servertime': this.$firestore.firestore.FieldValue.serverTimestamp(),
+      //     'updatedAt': this.$firestore.firestore.FieldValue.serverTimestamp()
+      //   })
+      //   this.loading = false
+      //   console.log('Document successfully updated!')
 
 
-    },
+      // },
+    }
   }
 }
+
 </script>

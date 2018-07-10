@@ -42,6 +42,47 @@
 
 //   return text;
 // }
+
+const location = () => {
+
+  return new Promise(resolve => {
+    let vm = this
+    let errorHandler = function (error) {
+      if (error.code === 1) {
+        // log('Error: PERMISSION_DENIED: User denied access to their location')
+      } else if (error.code === 2) {
+        // log(
+        //   'Error: POSITION_UNAVAILABLE: Network is down or positioning satellites cannot be reached'
+        // )
+      } else if (error.code === 3) {
+        // log("Error: TIMEOUT: Calculating the user's location too took long")
+      } else {
+        // log('Unexpected error code')
+      }
+      resolve('error')
+    }
+    const geolocationCallback = function (location) {
+      resolve(location)
+    }
+    if (
+      typeof navigator !== 'undefined' &&
+      typeof navigator.geolocation !== 'undefined'
+    ) {
+      // log('Asking user to get their location')
+      navigator.geolocation.getCurrentPosition(
+        geolocationCallback,
+        errorHandler
+      )
+    } else {
+      // log(
+      //   'Your browser does not support the HTML5 Geolocation API, so this demo will not work.'
+      // )
+    }
+
+  })
+}
+
+
 const randomElement = (arr = []) => {
   return arr[Math.floor(Math.random() * arr.length)]
 }
@@ -65,8 +106,7 @@ const toggleFullScreen = () => {
     doc.webkitExitFullscreen ||
     doc.msExitFullscreen
 
-  if (
-    !doc.fullscreenElement &&
+  if (!doc.fullscreenElement &&
     !doc.mozFullScreenElement &&
     !doc.webkitFullscreenElement &&
     !doc.msFullscreenElement
@@ -80,5 +120,6 @@ const toggleFullScreen = () => {
 export default {
   randomElement,
   toggleFullScreen,
-  kebab
+  kebab,
+  location
 }
