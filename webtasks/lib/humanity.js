@@ -1,41 +1,42 @@
-'use strict';var _querystring = require('querystring');var _querystring2 = _interopRequireDefault(_querystring);
-var _axios = require('axios');var _axios2 = _interopRequireDefault(_axios);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+let _querystring = require('querystring'); let _querystring2 = _interopRequireDefault(_querystring)
+let _axios = require('axios'); let _axios2 = _interopRequireDefault(_axios); function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
 
 module.exports = function (ctx, cb) {
-  var email = ctx.body.email;
+  let email = ctx.body.email
 
-  var payload = {
+  let payload = {
     client_id: '0cbaa9173943569cad4c0b8267981147bac0cf5d',
     client_secret: 'be6a34d0830ab6fb3db837958d50faace249e0d1',
     grant_type: 'password',
     username: 'ash@andrewscarpetcleaning.com',
     password: 'sugarlips42',
-    redirect_uri: 'https://andrewsadmin.firebaseapp.com/#/' };
+    redirect_uri: 'https://andrewsadmin.firebaseapp.com/#/' 
+  }
 
 
-  _axios2.default.
-  post('https://www.humanity.com/oauth2/token.php', _querystring2.default.stringify(payload)).
-  then(function (response) {
-    return _axios2.default.get('https://www.humanity.com/api/v2/employees?access_token=' + response.data.access_token);
-  }).
-  then(function (response) {var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {
-      for (var _iterator = response.data.data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {var value = _step.value;
+  _axios2.default
+    .post('https://www.humanity.com/oauth2/token.php', _querystring2.default.stringify(payload))
+    .then(function (response) {
+      return _axios2.default.get('https://www.humanity.com/api/v2/employees?access_token=' + response.data.access_token)
+    })
+    .then(function (response) { let _iteratorNormalCompletion = true; let _didIteratorError = false; let _iteratorError; try {
+      for (var _iterator = response.data.data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) { let value = _step.value
         if (value.email === email) {
-          console.log('28', value.id);
+          console.log('28', value.id)
           return _axios2.default.get('https://www.humanity.com/api/v2/timeclocks/status/' +
-          value.id + '/1?access_token=' + response.data.access_token + '}');
+          value.id + '/1?access_token=' + response.data.access_token + '}')
 
         }
-      }} catch (err) {_didIteratorError = true;_iteratorError = err;} finally {try {if (!_iteratorNormalCompletion && _iterator.return) {_iterator.return();}} finally {if (_didIteratorError) {throw _iteratorError;}}}
-  }).
-  then(function (response) {
-    cb('null', response);
-  }).
-  catch(function (error) {
-    console.log('76', error);
-  });
+      } } catch (err) { _didIteratorError = true; _iteratorError = err } finally { try { if (!_iteratorNormalCompletion && _iterator.return) { _iterator.return() } } finally { if (_didIteratorError) { throw _iteratorError } } }
+    })
+    .then(function (response) {
+      cb('null', response)
+    })
+    .catch(function (error) {
+      console.log('76', error)
+    })
 
-};
+}
 
 // app.post('/login', (req, res) => {
 //   console.log(req.body.email)
