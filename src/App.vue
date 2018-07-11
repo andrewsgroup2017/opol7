@@ -40,11 +40,8 @@
         </keep-alive>
       </transition>
     </template>
-    <v-snackbar :timeout="3000" bottom right :color="snackbar.color" v-model="snackbar.show">
+    <v-snackbar :timeout="6000" bottom right :color="snackbar.color" v-model="snackbar.show">
       {{ snackbar.text }}
-      <v-btn dark flat @click.native="snackbar.show = false" icon>
-        <v-icon>close</v-icon>
-      </v-btn>
     </v-snackbar>
   </div>
 </template>
@@ -77,8 +74,38 @@ export default {
   }),
 
   computed: {},
+  mounted () {
+    let vm = this
 
+    this.$pubnub.subscribe({
+      channels: ['general']
+    })
+    this.$pubnub.addListener({
+      status: function (statusEvent) {
+        if (statusEvent.category === 'PNConnectedCategory') {
+          // handle status
+          console.log('PC connected')
+        }
+
+      },
+
+      message: function (message) {
+        if (message.title === 'error') {
+          console.log(message.title)
+          vm.snackbar.text = message
+          vm.snackbar.show = true
+        }
+        console.log('New Message!', message)
+      },
+      presence: function (presenceEvent) {
+        // handle presence
+      }
+    })
+
+    this.fireMessage('asdf')
+  },
   created () {
+    this.pubnub.load()
     AppEvents.forEach(item => {
       this.$on(item.name, item.callback)
     })

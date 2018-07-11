@@ -14,6 +14,8 @@ import './plugins/setup'
 Vue.config.productionTip = false
 import './registerServiceWorker'
 
+
+
 function isMobileDevice () {
   return (typeof window.orientation !== 'undefined') || (navigator.userAgent.indexOf('IEMobile') !== -1)
 }

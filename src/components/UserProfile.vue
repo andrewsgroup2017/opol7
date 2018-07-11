@@ -94,44 +94,57 @@ export default {
     async clockIn () {
       console.log('clocking in ...')
       const vm = this
-      const deviceId = window.localStorage.getItem('deviceId')
-      // const lat = window.localStorage.getItem('deviceInfo').lat
-      // const lon = window.localStorage.getItem('deviceInfo').lon
-      const location = await utils.location
-      const print = window.localStorage.getItem('fingerprint')
-      const _id = vm.user.userUID
-      let itimeclock = await
-      vm.axios.post('https://wt-4b2720bcf712029a2fa08942c7e9bd70-0.sandbox.auth0-extend.com/humanity_clockin', { id: _id })
-      console.log(itimeclock)
-      if (itimeclock) {
-        let loc = {
-          'lat': location.lat,
-          'lon': location.lon
-        }
-        const d = new Date()
-        // console.log(itimeclock.data)
-        /* eslint-disable-next-line */
-        itimeclock.currentDevice = deviceId,
-        itimeclock.location = loc,
-        itimeclock.print = print,
-        itimeclock.createdAt = d.toString()
-        // itimeclock.createdAt = this.firebase.firestore().FieldValue.serverTimestamp()
-        firebase.firestore().collection('timeclocks').add(itimeclock)
-        // console.log(vm.user.userUID)
+      // const vm = this
+      // const deviceId = window.localStorage.getItem('deviceId')
+      // // const lat = window.localStorage.getItem('deviceInfo').lat
+      // // const lon = window.localStorage.getItem('deviceInfo').lon
+      // const location = await utils.location
+      // const print = window.localStorage.getItem('fingerprint')
+      // const _id = vm.user.userUID
+      // let htc = await
 
-        let docRef = firebase.firestore().collection('employees').doc(vm.user.userUID)
-        docRef.update({
-          currentDevice: deviceId,
-          location: {
-            'lat': location.lat,
-            'lon': location.lon
-          },
-          print: print,
-          updatedAt: firebase.firestore().FieldValue.serverTimestamp()
-        })
-      } else {
-        console.log('error ')
-      }
+      // vm.axios.post('https://wt-4b2720bcf712029a2fa08942c7e9bd70-0.sandbox.auth0-extend.com/humanity_clockin', { id: _id })
+      // if (htc.status === 13) {
+      //   console.log('employee already logged in')
+      // }
+      // if (htc) {
+      //   let loc = {
+      //     'lat': location.lat,
+      //     'lon': location.lon
+      //   }
+      //   const d = new Date()
+      // console.log(itimeclock.data)
+      /* eslint-disable-next-line */
+      // htc.currentDevice = deviceId,
+      // htc.location = loc,
+      // htc.print = print,
+      // htc.createdAt = d.toString()
+      // itimeclock.createdAt = this.firebase.firestore().FieldValue.serverTimestamp()
+      // firebase.firestore().collection('timeclocks').set({
+      //   employeeId: _id,
+      //   currentDevice: deviceId,
+      //   location: loc,
+      //   print: print,
+      //   createdAt: d.toString(),
+      //   startTime: d.toString(),
+      // }).then(result => {
+      //   console.log(result)
+      // })
+      // console.log(vm.user.userUID)
+
+      // let docRef = firebase.firestore().collection('employees').doc(vm.user.userUID)
+      // docRef.update({
+      //   currentDevice: deviceId,
+      //   location: {
+      //     'lat': location.lat,
+      //     'lon': location.lon
+      //   },
+      //   print: print,
+      //   updatedAt: firebase.firestore().FieldValue.serverTimestamp()
+      // })
+      // } else {
+      //   console.log('error ')
+      // }
     },
     async clockOut () {
       console.log('clocking out ...')

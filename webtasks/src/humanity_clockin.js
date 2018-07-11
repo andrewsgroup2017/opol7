@@ -19,24 +19,9 @@ module.exports = function (ctx, req, res) {
     .post('https://www.humanity.com/oauth2/token.php', querystring.stringify(payload))
     .then((response) => {
       token = response.data.access_token
-      return axios.get(`https://www.humanity.com/api/v2/employees?access_token=${token}`)
-    })
-    .then((response) => {
-      console.log('45', token)
-      for (let value of response.data.data) {
-        console.warn('asdfsdfsdfd')
-        if (value.id == ctx.body.id) {
-          console.log('48', value.id)
-          console.warn('asdfsdfsdfd')
-          console.warn('asdfsdfsdfd')
-          console.log(value.id)
-          // console.log('49', user)
-          return axios.post(
-            `https://www.humanity.com/api/v2/employees/${value.id}/clockin?access_token=${token}`
-          )
-        }
-      }
-
+      return axios.post(
+        `https://www.humanity.com/api/v2/employees/${value.id}/clockin?access_token=${token}`
+      )
     })
     .then((response) => {
       let r = response.data

@@ -1,79 +1,108 @@
 import * as functions from 'firebase-functions';
-import * as admin from 'firebase-admin';
-import * as firebaseHelper from 'firebase-functions-helper';
-import * as express from 'express';
-import * as bodyParser from 'body-parser';
+import * as db from './firestore';
+// import * as fetch from './timeclocks/fetch';
+// import * as timeclocks from './timeclocks/timeclocks';
+// import TimeClock from './timeclocks/TimeClock';
 
-admin.initializeApp(functions.config().firebase);
-const db = admin.firestore();
+exports.submitTimeClock = functions.https.onRequest((req, res) => {
+	console.log(req.body);
+	async function submitTC(req) {
+		// var tc = new TimeClock(req.body.id);
+		try {
+			let now = new Date();
+			var tc = {
+				employee_id: req.body.id,
+				dept: req.body.dept,
+				status: req.body.status,
+				created: now.toString(),
+				in_timestamp: now.toString()
+			};
+			return tc;
+		} catch (error) {
+			console.log(error);
+			return error;
+		}
+	}
+	var _tc = submitTC(req);
 
-const app = express();
-const main = express();
+	res.send(db.saveTimeClock(_tc));
+});
 
-main.use('/api/v1', app);
-main.use(bodyParser.json());
-main.use(bodyParser.urlencoded({ extended: false }));
+// exports.addTimeClock = functions.https.onRequest((req, res) => {
+// 	const id = req.body.id;
 
-export const webApi = functions.https.onRequest(main);
+// 	if (!(typeof id === 'string') || id.length === 0) {
+// 		// Throwing an HttpsError so that the client gets the error details.
+// 		throw new functions.https.HttpsError(
+// 			'invalid-argument',
+// 			'The function must be called with ' + 'one arguments "text" containing the message text to add.'
+// 		);
+// 	}
 
-const timeclocksCollection = 'timeclocks';
+// 	if (!context.auth) {
+// 		throw new functions.https.HttpsError(
+// 			'failed-precondition',
+// 			'The function must be called ' + 'while authenticated.'
+// 		);
+// 	}
+// 	async function setup() {
+// 		const result = await timeclocks.addTimeClock(data);
+// 		return result;
+// 	}
+// 	return setup();
+// });
+
+// const app = express()
+// const main = express()
+
+// main.use('/api/v1', app)
+// main.use(bodyParser.json())
+// main.use(bodyParser.urlencoded({ extended: false }))
+
+// export const webApi = functions.https.onRequest(main)
+
 // Add new Timeclock
-app.post('/timeclocks', (req, res) => {
-	firebaseHelper.firestore.creatNewDocument(db, timeclocksCollection, req.body);
-	res.send('Create a new Timeclock');
-});
+// app.post('/timeclocks', (req, res) => {
+//   async function fetchUsers(res) {
+//     // const token = await fetch.fetchToken()
+//     const htc = await fetch.clockIn(req.body.token)
+//     const timeclock = timeclockGenerate(htc)
+//     const result = await db.saveTimeClock(timeclock)
 
+//     res.send('Create a new Timeclock', timeclock)
+//   }
+// })
 // Update new Timeclock
-app.patch('/timeclocks/:timeclockId', (req, res) => {
-	firebaseHelper.firestore.updateDocument(db, timeclocksCollection, req.params.timeclockId, req.body);
-	res.send('Update a new Timeclock');
-});
+// app.patch('/timeclocks/:timeclockId', (req, res) => {
+//   firebaseHelper.firestore.updateDocument(
+//     db,
+//     timeclocksCollection,
+//     req.params.timeclockId,
+//     req.body
+//   )
+//   res.send('Update a new Timeclock')
+// })
 
-// View a Timeclock
-app.get('/timeclocks/:timeclockId', (req, res) => {
-	firebaseHelper.firestore
-		.getDocument(db, timeclocksCollection, req.params.timeclockId)
-		.then((doc) => res.status(200).send(doc));
-});
+// // View a Timeclock
+// app.get('/timeclocks/:timeclockId', (req, res) => {
+//   firebaseHelper.firestore
+//     .getDocument(db, timeclocksCollection, req.params.timeclockId)
+//     .then(doc => res.status(200).send(doc))
+// })
 
-// View all timeclocks
-app.get('/timeclocks', (req, res) => {
-	firebaseHelper.firestore.backup(db, timeclocksCollection).then((data) => res.status(200).send(data));
-});
+// // View all timeclocks
+// app.get('/timeclocks', (req, res) => {
+//   firebaseHelper.firestore
+//     .backup(db, timeclocksCollection)
+//     .then(data => res.status(200).send(data))
+// })
 
-// Delete a Timeclock
-app.delete('/timeclocks/:timeclockId', (req, res) => {
-	firebaseHelper.firestore.deleteDocument(db, timeclocksCollection, req.params.timeclockId);
-	res.send('Timeclock is deleted');
-});
-
-const contactsCollection = 'contacts';
-// Add new contact
-app.post('/contacts', (req, res) => {
-	firebaseHelper.firestore.creatNewDocument(db, contactsCollection, req.body);
-	res.send('Create a new contact');
-});
-
-// Update new contact
-app.patch('/contacts/:contactId', (req, res) => {
-	firebaseHelper.firestore.updateDocument(db, contactsCollection, req.params.contactId, req.body);
-	res.send('Update a new contact');
-});
-
-// View a contact
-app.get('/contacts/:contactId', (req, res) => {
-	firebaseHelper.firestore
-		.getDocument(db, contactsCollection, req.params.contactId)
-		.then((doc) => res.status(200).send(doc));
-});
-
-// View all contacts
-app.get('/contacts', (req, res) => {
-	firebaseHelper.firestore.backup(db, contactsCollection).then((data) => res.status(200).send(data));
-});
-
-// Delete a contact
-app.delete('/contacts/:contactId', (req, res) => {
-	firebaseHelper.firestore.deleteDocument(db, contactsCollection, req.params.contactId);
-	res.send('Contact is deleted');
-});
+// // Delete a Timeclock
+// app.delete('/timeclocks/:timeclockId', (req, res) => {
+//   firebaseHelper.firestore.deleteDocument(
+//     db,
+//     timeclocksCollection,
+//     req.params.timeclockId
+//   )
+//   res.send('Timeclock is deleted')
+// })
