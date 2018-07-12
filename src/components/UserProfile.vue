@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-media :src="user.photoURL" height="300">
+    <v-card-media :src="user.avatar.large || no_pic_url" height="300">
       <v-layout column class="media ma-0" v-show="!loading">
         <v-card-title>
           <div>
@@ -28,7 +28,7 @@
           <v-icon color="indigo">phone</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>{{user.phone}}</v-list-tile-title>
+          <v-list-tile-title>{{user.cell_phone}}</v-list-tile-title>
           <v-list-tile-sub-title>Mobile</v-list-tile-sub-title>
         </v-list-tile-content>
         <v-list-tile-action>
@@ -87,31 +87,42 @@ export default {
   props: ['user'],
   data () {
     return {
-      loading: false
+      loading: false,
+      no_pic_url: 'https://d3l54fgzztlejs.cloudfront.net/app/layout/images/no_avatar.png'
     }
   },
   methods: {
     async clockIn () {
       console.log('clocking in ...')
       const vm = this
-      // const vm = this
       // const deviceId = window.localStorage.getItem('deviceId')
-      // // const lat = window.localStorage.getItem('deviceInfo').lat
-      // // const lon = window.localStorage.getItem('deviceInfo').lon
-      // const location = await utils.location
-      // const print = window.localStorage.getItem('fingerprint')
-      // const _id = vm.user.userUID
-      // let htc = await
-
-      // vm.axios.post('https://wt-4b2720bcf712029a2fa08942c7e9bd70-0.sandbox.auth0-extend.com/humanity_clockin', { id: _id })
+      // const lat = window.localStorage.getItem('deviceInfo').lat
+      // const lon = window.localStorage.getItem('deviceInfo').lon
+      const location = await utils.location
+      const print = window.localStorage.getItem('fingerprint')
+      const _id = vm.user.userUID
+      // let htc = await vm.axios.post('https://wt-4b2720bcf712029a2fa08942c7e9bd70-0.sandbox.auth0-extend.com/humanity_clockin', { id: _id })
       // if (htc.status === 13) {
       //   console.log('employee already logged in')
+      //   return
       // }
       // if (htc) {
-      //   let loc = {
-      //     'lat': location.lat,
-      //     'lon': location.lon
-      //   }
+      let loc = {
+        'lat': location.lat,
+        'lon': location.lon
+      }
+      // const TimeClock = {
+      //   employeeId: _id,
+      //   action: 'clockIn',
+      //   currentDevice: deviceId,
+      //   databaseKey: this.user.databaseKey,
+      //   location: loc,
+      //   print: print,
+      //   // createdAt: d.toString(),
+      //   // startTime: d.toString(),
+      // }
+      let serverClockStatus = await this.axios.post('http://localhost:3000/timeclocks', { TimeClock: { action: 'clockIn', employeeId: this.user.id, databaseKey: this.user.databaseKey, currentDevice: print, location: loc }})
+      // }
       //   const d = new Date()
       // console.log(itimeclock.data)
       /* eslint-disable-next-line */
@@ -149,23 +160,32 @@ export default {
     async clockOut () {
       console.log('clocking out ...')
       const vm = this
-      let otimeclock = await vm.axios.post('https://wt-4b2720bcf712029a2fa08942c7e9bd70-0.sandbox.auth0-extend.com/humanity_clockout', vm.user.userUID)
-      if (otimeclock) {
-        console.log(vm.user.userUID)
-        let docRef = vm.$firebase.firestore().collection('timeclocks').where('userId', '==', vm.user.userUID).where('status', '==', 0)
-        docRef.get().then(function (doc) {
-          if (doc.exists) {
-            console.log('Document data:', doc.data())
-          } else {
-            // doc.data() will be undefined in this case
-            console.log('No such document!')
-          }
-        }).catch(function (error) {
-          console.log('Error getting document:', error)
-        })
-      } else {
-        console.log(otimeclock)
+      const location = await utils.location
+      const print = window.localStorage.getItem('fingerprint')
+      const _id = vm.user.userUID
+      // let otimeclock = await vm.axios.post('https://wt-4b2720bcf712029a2fa08942c7e9bd70-0.sandbox.auth0-extend.com/humanity_clockout', vm.user.id)
+      // if (otimeclock) {
+      //   console.log(vm.user.id)
+      //   let docRef = vm.$firebase.firestore().collection('timeclocks').where('userId', '==', vm.user.userUID).where('status', '==', 0)
+      //   docRef.get().then(function (doc) {
+      //     if (doc.exists) {
+      //       console.log('Document data:', doc.data())
+      //     } else {
+      //       // doc.data() will be undefined in this case
+      //       console.log('No such document!')
+      //     }
+      //   }).catch(function (error) {
+      //     console.log('Error getting document:', error)
+      //   })
+      // } else {
+      //   console.log(otimeclock)
+      // }
+      let loc = {
+        'lat': location.lat,
+        'lon': location.lon
       }
+
+      let serverClockOut = await this.axios.post('http://localhost:3000/timeclocks', { TimeClock: { action: 'clockOut', employeeId: this.user.id, databaseKey: this.user.databaseKey, currentDevice: print, location: loc, currentTimeClock: this.user.currentTimeClock }})
       // async clockIn () {
       //   console.log('clocking in ...')
       //   this.loading = true

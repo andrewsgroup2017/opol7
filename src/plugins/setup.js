@@ -21,9 +21,14 @@ const w = window
 async function setFP () {
   fp = await new Fingerprint2().get(function (result, components) {
     console.log(result)
+    let email = result + '@gmail.com'
+    firebase.auth().signInWithEmailAndPassword(email, 'asdfasdf').catch(function (error) {
+      console.log(error)
+    })
     w.localStorage.setItem('fingerprint', result.toString()) // a
   })
 }
+
 
 if (!fp || fp === 'undefined') {
   setFP()
@@ -36,10 +41,17 @@ Vue.mixin({
     }
   },
   methods: {
-    fireMessage: function (msg) {
+    fireMessage: function (title, description) {
+      let msg = {
+        title: title,
+        description: description
+      }
+      msg.title = title
+
       this.$pubnub.publish({
         message: {
-          such: msg
+          title: title,
+          description: description
         },
         channel: 'general',
         sendByPost: false, // true to send via post

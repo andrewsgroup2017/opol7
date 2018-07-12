@@ -89,20 +89,23 @@ export default {
 
       },
 
-      message: function (message) {
-        if (message.title === 'error') {
-          console.log(message.title)
-          vm.snackbar.text = message
-          vm.snackbar.show = true
-        }
-        console.log('New Message!', message)
-      },
+      // message: function (message) {
+      //   console.log(message.message)
+
+      //   if (message.message.title === 'error') {
+      //     console.log(message)
+      //     vm.snackbar.color = 'red'
+      //     vm.snackbar.text = message.message.description
+      //     vm.snackbar.show = true
+      //   }
+      //   // console.log('New Message!', message)
+      // },
       presence: function (presenceEvent) {
         // handle presence
       }
     })
 
-    this.fireMessage('asdf')
+    // this.fireMessage('t', 'd')
   },
   created () {
     this.pubnub.load()

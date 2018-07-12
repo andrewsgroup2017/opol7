@@ -66,17 +66,19 @@ const mutations = {
   SET_PROFILE (state, {
     profile
   }) {
-    state.profile = {
-      userId: profile.data().userId,
-      photoURL: profile.data().avatar.large,
-      name: profile.data().name,
-      userUID: profile.data().id,
-      phone: profile.data().cell_phone,
-      email: profile.data().email,
-      last_active: profile.data().last_active,
-      online: true,
+    console.log(profile.data())
+    state.profile = profile.data()
+    // state.profile = {
+    //   userId: profile.data().userId,
+    //   photoURL: profile.data().avatar.large,
+    //   name: profile.data().name,
+    //   userUID: profile.data().id,
+    //   phone: profile.data().cell_phone,
+    //   email: profile.data().email,
+    //   last_active: profile.data().last_active,
+    //   online: true,
 
-    }
+    // }
   }
 }
 
